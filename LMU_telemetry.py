@@ -1,6 +1,6 @@
-from sharedMemoryAPI import SimInfoAPI  # Replace 'your_module' with your filename or package
+from templates.sharedMemoryAPI  import SimInfoAPI
 
-def main():
+def accTelemetry():
     sim = SimInfoAPI()
 
     if sim.isRF2running():

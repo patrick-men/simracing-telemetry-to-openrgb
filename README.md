@@ -45,6 +45,7 @@ If you're able to find the devices, you're ready to go and you can hop into the 
 With all the preparations done, we can dive into the code:
 
 First and foremost, you need some libraries to get this project going. This includes [pyRfactor2SharedMemory](https://github.com/TonyWhitley/pyRfactor2SharedMemory) for LMU, [PyAccSharedMemory](https://github.com/rrennoir/PyAccSharedMemory) for ACC and [openrgb-python](https://github.com/jath03/openrgb-python). 
+
 For ACC and OpenRGB, you can find the download/`pip` commands on their repository - for LMU, however, you're best off either cloning their repo locally (`git clone https://github.com/TonyWhitley/pyRfactor2SharedMemory.git`) or copying over the relevant files - more on that later.
 
 ### Testing the individual components

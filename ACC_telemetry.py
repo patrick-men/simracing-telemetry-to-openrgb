@@ -1,29 +1,37 @@
-# from pyaccsharedmemory import accSharedMemory
-#
-# asm = accSharedMemory()
-# sm = asm.read_shared_memory()
-#
-# if (sm is not None):
-#     print("Physics:")
-#     print(f"Pad life: {sm.Physics.pad_life}")
-#
-#     print("Graphics:")
-#     print(f"Strategy tyre set: {sm.Graphics.penalty.name}")
-#
-#     print("Static: ")
-#     print(f"Max RPM: {sm.Static.max_rpm}")
-#
-# asm.close()
+from pyaccsharedmemory import accSharedMemory
 
-from multiprocessing import shared_memory
-import numpy as np
+#TODO: Create func that returns flag values
+#TODO: Cleanup
 
-# Use the shared memory name printed by writer
-shm = shared_memory.SharedMemory(name='$rFactor2SMMP_Telemetry$')  # replace with actual name
+# initialize sm var
+sm = None
 
-# Create numpy array backed by shared memory
-shm_array = np.ndarray((4,), dtype='int32', buffer=shm.buf)
-print("Read from shared memory:", shm_array[:])
+def init():
+    global sm
+    sm = accSharedMemory().read_shared_memory()
 
-# Clean up
-shm.close()
+
+def getMaxRPM(sm):
+    MaxRPM = sm.Static.max_rpm
+    return MaxRPM
+
+def getCurrentRPM():
+    currentRPM = sm.Physics.rpm
+    return currentRPM
+
+if (sm is not None):
+    print("Physics:")
+    print(f"Pad life: {sm.Physics.pad_life}")
+
+    print("Graphics:")
+    print(f"Strategy tyre set: {sm.Graphics.penalty.name}")
+
+    print("Static: ")
+    print(f"Max RPM: {sm.Static.max_rpm}")
+
+    flag=sm.Graphics.flag
+
+    print(flag.value)
+
+def accClose():
+    sm.close()
