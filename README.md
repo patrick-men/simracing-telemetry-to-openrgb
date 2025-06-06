@@ -30,12 +30,22 @@ In order to be able to read from shared memory you need a plugin. There are 3 wa
 
 ### OpenRGB
 
-With the telemetry data ready to be used, we need to 
+> Make sure to check their [list of all supported devices](https://openrgb.org/devices.html) to ensure that your device is supported before going into this
+
+Before being able to do anything with OpenRGB, it has to be installed. You can find both a stable as well as an experimental build at the bottom of [their page](https://openrgb.org/). 
+
+Once you downloaded it, make sure to start it up and see if you can find your relevant devices - depending on your setup, that can be your headphones, your keyboard, your PC fans, etc. 
+If you're able to find the devices, you're ready to go and you can hop into the code:
 
 
 ## Implementation
 
-> See [pyRfactor2SharedMemory](https://github.com/TonyWhitley/pyRfactor2SharedMemory) for the code used to access the shared memory
+> I'm going to assume that you have a python environment ready to use. If not, try to follow some guides online - I can highly recommend using pyCharm, as it does most of the annoying work for you
 
+With all the preparations done, we can dive into the code:
 
-> See [PyAccSharedMemory](https://github.com/rrennoir/PyAccSharedMemory) to find out how to access the shared memory data of Assetto Corsa Competizione
+First and foremost, you need some libraries to get this project going. This includes [pyRfactor2SharedMemory](https://github.com/TonyWhitley/pyRfactor2SharedMemory) for LMU, [PyAccSharedMemory](https://github.com/rrennoir/PyAccSharedMemory) for ACC and [openrgb-python](https://github.com/jath03/openrgb-python). 
+For ACC and OpenRGB, you can find the download/`pip` commands on their repository - for LMU, however, you're best off either cloning their repo locally (`git clone https://github.com/TonyWhitley/pyRfactor2SharedMemory.git`) or copying over the relevant files - more on that later.
+
+### Testing the individual components
+
