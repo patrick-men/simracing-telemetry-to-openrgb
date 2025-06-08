@@ -1,7 +1,6 @@
 from unittest import case
 from openrgb import OpenRGBClient
 from openrgb.utils import RGBColor, DeviceType
-import main as gui
 
 import random, time
 
@@ -79,11 +78,11 @@ def flagLight(flag):
                 print("Invalid input")
 
 
-def colortest():
-    if gui.game == "ACC":
+def colortest(game):
+    if game == "ACC":
         keyboard.set_color(red)
 
-    elif gui.game == "LMU":
+    elif game == "LMU":
         keyboard.set_color(blue)
 
 #keyboard.set_color(orange)
