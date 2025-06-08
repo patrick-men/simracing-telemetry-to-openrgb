@@ -1,3 +1,7 @@
+#TODO: Implement LMU
+#TODO: Test LMU
+#TODO: Finish README.md
+
 # simracing-telemetry-to-openrgb
 This repo contains an attempt at creating a "telemetry wrapper" which can communicate with OpenRGB. The goal is to take telemetry data from some games (currently Assetto Corsa Competizione and Le Mans Ultimate), and represent it through the PCs lighting.
 <br> => The current main goal is to use my PC as a shift light. Based on RPM, the case will lighten up either green, yellow or red.
