@@ -6,17 +6,17 @@ from openrgb.utils import RGBColor, DeviceType
 
 import random, time
 
-import ACC_telemetry as acc
-import LMU_telemetry as lmu
-
 #TODO: Cleanup the different functions
 #TODO: Implement the telemetry logic
 
 # initialize the openRGB client
 cli = OpenRGBClient()
 
-# You can use print(cli.devices) to get a list of all available devices
-##################################
+############################################################################
+## You can use print(cli.devices) to get a list of all available devices  ##
+## For simplicity's sake I just hardcoded mine                            ##
+############################################################################
+
 # will be used to signal flags
 fans = cli.get_devices_by_name('Lian Li Uni Hub - SL V2 v0.5')[0]
 # will be used as a shift light
@@ -41,75 +41,46 @@ def checkered():
         time.sleep(1)
 
 
+def rpmRatioCalc(currentRPM, maxRPM):
+    rpmRatio = (currentRPM / maxRPM) * 100
+    return rpmRatio
+
 # function for shift light. Based on rpm Ratio, the light changes - similar to GT cars' shift light, though with "vague", generic ratios
+
 def shiftLight(currentRPM, maxRPM):
     rpmRatio = rpmRatioCalc(currentRPM, maxRPM)
     match rpmRatio:
         case 0:
-            return yellow
-        case _ if 0 < rpmRatio <= 85:
-            return green
-        case _ if 85 < rpmRatio <= 93:
-            return yellow
-        case _ if 93 < rpmRatio <= 100:
-            return red
+            keyboard.set_color(black)
+        case _ if 0 < rpmRatio <= 80:
+            keyboard.set_color(green)
+        case _ if 80 < rpmRatio <= 88:
+            keyboard.set_color(yellow)
+        case _ if 88 < rpmRatio <= 100:
+            keyboard.set_color(red)
         case _:
-            return black
+            keyboard.set_color(black)
 
 # flag value definitions: https://github.com/rrennoir/PyAccSharedMemory?tab=readme-ov-file#acc_flag_type
 def flagLight(flag):
         match flag:
             case 0: # no flag
-                return neutral
+                fans.set_color(neutral)
             case 1: # blue flag
-                return blue
+                fans.set_color(blue)
             case 2: # yellow flag
-                return yellow
+                fans.set_color(yellow)
             case 3: # black flag
-                return black
+                fans.set_color(black)
             case 4: # white flag
-                return white
+                fans.set_color(white)
             case 5: # checkered flag
-                return "checkered"
+                checkered()
             case 6: # according to doc this is "penalty flag" - TBD which color fits best
-                return neutral
+                fans.set_color(neutral)
             case 7: # green flag
-                return green
+                fans.set_color(green)
             case 8: # orange flag
-                return orange
+                fans.set_color(orange)
             case _: # catching possible errors, or non-relevant output when e.g. in menu
-                return neutral
-
-def rpmRatioCalc(currentRPM, maxRPM):
-    rpmRatio = currentRPM / maxRPM
-    return rpmRatio
-
-
-def colortest(game):
-    if game == "ACC":
-        keyboard.set_color(red)
-
-    elif game == "LMU":
-        keyboard.set_color(blue)
-
-#keyboard.set_color(orange)
-#time.sleep(1)
-#keyboard.set_color(neutral)
-#checkered()
-
-# acc.init()
-# currentRPM = acc.getCurrentRPM()
-# print(currentRPM)
-
-
-
-# def main():
-#   if game=ACC
-#     acc.init()
-#     acc.getCurrentRPM()
-#   else if game=LMU
-#     LMU_init()
-#
-#   while True:
-#       getRPM()
-#       getMaxRPM()
+                fans.set_color(neutral)
