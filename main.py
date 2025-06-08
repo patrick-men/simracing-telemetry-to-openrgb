@@ -3,12 +3,15 @@ from tkinter import *
 import TelemetryFunctions as telemetry
 import sys
 import subprocess
+from LMU_telemetry import *
+from ACC_telemetry import *
+import threading # required to avoid tkinter GUI from hanging
 
-#TODO: Button click should make live changes of the lighting
+#### FUNCTION DEFINITIONS ####
 
 game = ""
 
-# Action when LMU button is clicked
+# action when LMU button is clicked
 def clickedACC():
 
     lbl.configure(text="Telemetry is being read for ACC! Enjoy your ride")
@@ -18,12 +21,10 @@ def clickedACC():
     btnLMU.destroy()
     lbl.pack(expand=True)
 
-    global game
-    game = "ACC"
+    # func has to be ran in thread to avoid the tkinter GUI from hanging - daemon=true to ensure it stops when the program does
+    threading.Thread(target=accTelemetry, daemon=True).start()
 
-    telemetry.colortest(game)
-
-# Action when LMU button is clicked
+# action when LMU button is clicked
 def clickedLMU():
 
     lbl.configure(text="Telemetry is being read for LMU! Enjoy your ride")
@@ -33,46 +34,34 @@ def clickedLMU():
     btnLMU.destroy()
     lbl.pack(expand=True)
 
-    global game
-    game = "LMU"
+    # func has to be ran in thread to avoid the tkinter GUI from hanging - daemon=true to ensure it stops when the program does
+    threading.Thread(target=lmuTelemetry, daemon=True).start()
 
-    telemetry.colortest(game)
-
-# Restart button that restarts the entire GUI, and stops the current telemetry reading
+# restart button that restarts the entire GUI, and stops the current telemetry reading
 def restart():
     root.destroy()
     python = sys.executable
     subprocess.Popen([python, __file__])
 
 def main():
-
-    # Create root window
+    # create root window
     global root
     root = Tk()
 
-    # Root window title and dimensions
+    # root window title and dimensions
     root.title("Telemetry to OpenRGB")
     root.geometry('450x120')  # Adjusted height for spacing
 
-    # Configure grid to center content
+    # configure grid to center content
     root.columnconfigure(0, weight=1)
     root.columnconfigure(1, weight=1)
 
-    # Add label
+    # add label
     global lbl
     lbl = Label(root, text="Pick the game you want to read telemetry from:", font=("Arial", 12))
     lbl.grid(column=0, row=0, columnspan=2, pady=10)
 
-
-    # Need to change things around for this to work:
-    # def clickedReset():
-    #
-    #     btnACC.configure(state="active")
-    #     btnLMU.configure(state="active")
-    #
-    #     lbl.configure(text="Telemetry is no longer being read")
-
-    # Buttons
+    # buttons
     global btnACC
     global btnLMU
     global btnRestart
@@ -86,9 +75,9 @@ def main():
     btnRestart = Button(root, text="⟳", font=("Arial", 12), command=restart)
     btnRestart.place(relx=1.0, rely=1.0, anchor="se", x=-10, y=-10)
 
-    # Run the application
+    # run the GUI
     root.mainloop()
 
-
+#### MAIN EXECUTION ####
 
 main()
