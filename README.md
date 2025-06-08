@@ -56,4 +56,6 @@ For ACC and OpenRGB, you can find the download/`pip` commands on their repositor
 - Find a nice way to run the code without compiling into .exe or having to open IDE > This way adjustments (such as better shifting ratios) can be done on the fly by whoever uses it; while maintaining good "usability" <br>
 - Add buttons to ad-hoc change the car (type), to get a more fitting rpmRatio for shifting
 - Add easier way to get the devices
+- Add check to see if OpenRGB server is running 
+- Add check to see if games are running 
 
