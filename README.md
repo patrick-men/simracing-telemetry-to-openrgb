@@ -1,8 +1,3 @@
-#TODO: Implement LMU <br>
-#TODO: Test LMU <br>
-#TODO: Finish README.md <br>
-#TODO: Find a nice way to run the code without compiling into .exe or having to open IDE > This way adjustments (such as better shifting ratios) can be done on the fly by whoever uses it; while maintaining good "usability" <br>
-
 # simracing-telemetry-to-openrgb
 This repo contains an attempt at creating a "telemetry wrapper" which can communicate with OpenRGB. The goal is to take telemetry data from some games (currently Assetto Corsa Competizione and Le Mans Ultimate), and represent it through the PCs lighting.
 <br> => The current main goal is to use my PC as a shift light. Based on RPM, the case will lighten up either green, yellow or red.
@@ -54,4 +49,11 @@ First and foremost, you need some libraries to get this project going. This incl
 For ACC and OpenRGB, you can find the download/`pip` commands on their repository - for LMU, however, you're best off either cloning their repo locally (`git clone https://github.com/TonyWhitley/pyRfactor2SharedMemory.git`) or copying over the relevant files - more on that later.
 
 ### Testing the individual components
+
+## ToDos / Ideas
+
+- Finish README.md <br>
+- Find a nice way to run the code without compiling into .exe or having to open IDE > This way adjustments (such as better shifting ratios) can be done on the fly by whoever uses it; while maintaining good "usability" <br>
+- Add buttons to ad-hoc change the car (type), to get a more fitting rpmRatio for shifting
+- Add easier way to get the devices
 
