@@ -1,13 +1,9 @@
 #### This file contains general funcs to handle telemetry data. The telemetry itself comes from another file ####
 
-from unittest import case
 from openrgb import OpenRGBClient
 from openrgb.utils import RGBColor, DeviceType
-
 import random, time
 
-#TODO: Cleanup the different functions
-#TODO: Implement the telemetry logic
 
 # initialize the openRGB client
 cli = OpenRGBClient()
@@ -84,3 +80,11 @@ def flagLight(flag):
                 flagDevice.set_color(orange)
             case _: # catching possible errors, or non-relevant output when e.g. in menu
                 flagDevice.set_color(neutral)
+
+def OpenRGBConfigBackup():
+    currentProfiles = cli.profiles
+    print(currentProfiles)
+
+    if not currentProfiles:  # if there are no profiles, create one that the user can revert to
+        cli.save_profile("backupCurrentState")  # creates profile with name "backupCurrentState" and saves it to OpenRGBs default config location
+        print("Your current state has been saved as the profile 'backupCurrentState' - you're free to revert to it through OpenRGB at any point")

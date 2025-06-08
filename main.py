@@ -1,11 +1,11 @@
-import subprocess
 from tkinter import *
-import TelemetryFunctions as telemetry
 import sys
 import subprocess
 from LMU_telemetry import *
 from ACC_telemetry import *
 import threading # required to avoid tkinter GUI from hanging
+from TelemetryFunctions import OpenRGBConfigBackup as backupConfig
+
 
 #### FUNCTION DEFINITIONS ####
 
@@ -44,13 +44,16 @@ def restart():
     subprocess.Popen([python, __file__])
 
 def main():
+    # run profile backup whenever the program is ran
+    backupConfig()
+
     # create root window
     global root
     root = Tk()
 
     # root window title and dimensions
     root.title("Telemetry to OpenRGB")
-    root.geometry('450x120')  # Adjusted height for spacing
+    root.geometry('450x150')  # Adjusted height for spacing
 
     # configure grid to center content
     root.columnconfigure(0, weight=1)
@@ -60,6 +63,16 @@ def main():
     global lbl
     lbl = Label(root, text="Pick the game you want to read telemetry from:", font=("Arial", 12))
     lbl.grid(column=0, row=0, columnspan=2, pady=10)
+
+    # add backup information label
+    backupLabel = Label(
+        root,
+        text="If you don't have a profile of your current OpenRGB \nsettings saved, one's created automatically",
+        font=("Arial", 7),
+        justify="left",
+        anchor="w"
+    )
+    backupLabel.place(x=5, rely=1.0, anchor='sw')
 
     # buttons
     global btnACC
