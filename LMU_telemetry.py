@@ -1,35 +1,40 @@
 from templates.sharedMemoryAPI  import SimInfoAPI
+from TelemetryFunctions import *
+
+global maxRPM
+global currentRPM
+global flag # will match values from ACC, see flagLight() in TelemetryFunctions.py
 
 def accTelemetry():
     sim = SimInfoAPI()
 
     if sim.isRF2running():
-        print("rFactor 2 is running")
-        print(sim.versionCheckMsg)
-
         if sim.isSharedMemoryAvailable():
-            print("Shared memory is available")
-
-            # Get player info
-            player_name = sim.driverName()
-            print("Player:", player_name)
 
             # Get telemetry info for player
             telemetry = sim.playersVehicleTelemetry()
-            print("Gear:", telemetry.mGear)
-            print("Clutch:", telemetry.mUnfilteredClutch)
-            print("RPM:", telemetry.mEngineRPM)
+            currentRPM = telemetry.mEngineRPM
+            maxRPM = telemetry.mEngineMaxRPM
 
-            # Get scoring info
+            # Get all relevant flag info // there aren't as many flags that can be read from telemetry as there are in ACC
             scoring = sim.playersVehicleScoring()
-            print("Vehicle Name:", scoring.mVehicleName)
+            noFlag = scoring.YellowFlag
+            greenOrYellowFlag = scoring.GamePhase()
+            greenOrBlueFlag = scoring.PrimaryFlag()
 
-            # Check if track loaded
-            if sim.isTrackLoaded():
-                print("Track is loaded")
+            if noFlag == 0: # no flag: https://github.com/TonyWhitley/pyRfactor2SharedMemory/blob/32261e05d4103104d0da8fa0dffcebd441d2cef9/rF2data.py#L70
+                flag = 0
+            elif greenOrYellowFlag == 5: # green flag: https://github.com/TonyWhitley/pyRfactor2SharedMemory/blob/32261e05d4103104d0da8fa0dffcebd441d2cef9/rF2data.py#L62
+                flag = 7
+            elif greenOrYellowFlag == 6: # yellof flag: https://github.com/TonyWhitley/pyRfactor2SharedMemory/blob/32261e05d4103104d0da8fa0dffcebd441d2cef9/rF2data.py#L63
+                flag = 2
+            elif greenOrYellowFlag == 0: # green flag: https://github.com/TonyWhitley/pyRfactor2SharedMemory/blob/32261e05d4103104d0da8fa0dffcebd441d2cef9/rF2data.py#L120
+                flag = 7
+            elif greenOrYellowFlag == 6: # blue flag: https://github.com/TonyWhitley/pyRfactor2SharedMemory/blob/32261e05d4103104d0da8fa0dffcebd441d2cef9/rF2data.py#L121
+                flag = 1
 
-    else:
-        print("rFactor 2 is not running")
+        flagLight(flag)
+        shiftLight(currentRPM, maxRPM)
 
 if __name__ == "__main__":
-    main()
+    accTelemetry()

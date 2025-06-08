@@ -1,3 +1,5 @@
+#### This file contains general funcs to handle telemetry data. The telemetry itself comes from another file ####
+
 from unittest import case
 from openrgb import OpenRGBClient
 from openrgb.utils import RGBColor, DeviceType
@@ -40,7 +42,8 @@ def checkered():
 
 
 # function for shift light. Based on rpm Ratio, the light changes - similar to GT cars' shift light, though with "vague", generic ratios
-def shiftLight(rpmRatio):
+def shiftLight(currentRPM, maxRPM):
+    rpmRatio = rpmRatioCalc(currentRPM, maxRPM)
     match rpmRatio:
         case 0:
             return yellow
@@ -56,26 +59,30 @@ def shiftLight(rpmRatio):
 # flag value definitions: https://github.com/rrennoir/PyAccSharedMemory?tab=readme-ov-file#acc_flag_type
 def flagLight(flag):
         match flag:
-            case 0:
+            case 0: # no flag
                 return neutral
-            case 1:
+            case 1: # blue flag
                 return blue
-            case 2:
+            case 2: # yellow flag
                 return yellow
-            case 3:
+            case 3: # black flag
                 return black
-            case 4:
+            case 4: # white flag
                 return white
-            case 5:
+            case 5: # checkered flag
                 return "checkered"
             case 6: # according to doc this is "penalty flag" - TBD which color fits best
                 return neutral
-            case 7:
+            case 7: # green flag
                 return green
-            case 8:
+            case 8: # orange flag
                 return orange
-            case _:
-                print("Invalid input")
+            case _: # catching possible errors, or non-relevant output when e.g. in menu
+                return neutral
+
+def rpmRatioCalc(currentRPM, maxRPM):
+    rpmRatio = currentRPM / maxRPM
+    return rpmRatio
 
 
 def colortest(game):
