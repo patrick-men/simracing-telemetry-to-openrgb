@@ -1,6 +1,7 @@
-#TODO: Implement LMU
-#TODO: Test LMU
-#TODO: Finish README.md
+#TODO: Implement LMU <br>
+#TODO: Test LMU <br>
+#TODO: Finish README.md <br>
+#TODO: Find a nice way to run the code without compiling into .exe or having to open IDE > This way adjustments (such as better shifting ratios) can be done on the fly by whoever uses it; while maintaining good "usability" <br>
 
 # simracing-telemetry-to-openrgb
 This repo contains an attempt at creating a "telemetry wrapper" which can communicate with OpenRGB. The goal is to take telemetry data from some games (currently Assetto Corsa Competizione and Le Mans Ultimate), and represent it through the PCs lighting.
