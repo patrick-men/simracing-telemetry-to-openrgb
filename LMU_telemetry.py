@@ -60,5 +60,3 @@ def lmuTelemetry():
                 shiftLight(currentRPM, maxRPM)
 
                 time.sleep(0.1)
-
-lmuTelemetry()
