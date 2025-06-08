@@ -1,37 +1,21 @@
 from pyaccsharedmemory import accSharedMemory
+from TelemetryFunctions import *
 
-#TODO: Create func that returns flag values
-#TODO: Cleanup
-
-# initialize sm var
-sm = None
-
-def init():
-    global sm
+def accTelemetry():
     sm = accSharedMemory().read_shared_memory()
 
+    while True:
+        flag=sm.Graphics.flag.value
+        currentRPM = sm.Physics.rpm
+        maxRPM = sm.Static.max_rpm # Static data *PER* car - kept in while-loop to update automatically if car is changed
 
-def getMaxRPM(sm):
-    MaxRPM = sm.Static.max_rpm
-    return MaxRPM
+        flagLight(flag)
+        shiftLight(currentRPM, maxRPM)
 
-def getCurrentRPM():
-    currentRPM = sm.Physics.rpm
-    return currentRPM
+        print("Max RPM:",maxRPM)
 
-if (sm is not None):
-    print("Physics:")
-    print(f"Pad life: {sm.Physics.pad_life}")
+        print("current RPM:", currentRPM)
 
-    print("Graphics:")
-    print(f"Strategy tyre set: {sm.Graphics.penalty.name}")
+        time.sleep(0.1)
 
-    print("Static: ")
-    print(f"Max RPM: {sm.Static.max_rpm}")
-
-    flag=sm.Graphics.flag
-
-    print(flag.value)
-
-def accClose():
-    sm.close()
+        accTelemetry().close()
