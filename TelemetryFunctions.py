@@ -18,9 +18,9 @@ cli = OpenRGBClient()
 ############################################################################
 
 # will be used to signal flags
-fans = cli.get_devices_by_name('Lian Li Uni Hub - SL V2 v0.5')[0]
+flagDevice = cli.get_devices_by_name('Lian Li Uni Hub - SL V2 v0.5')[0]
 # will be used as a shift light
-keyboard = cli.get_devices_by_name('Roccat Vulcan Pro TKL')[0]
+shiftDevice = cli.get_devices_by_name('Roccat Vulcan Pro TKL')[0]
 
 # color definitions
 neutral = RGBColor(0, 255, 255)
@@ -35,9 +35,9 @@ white = RGBColor(255, 255, 255)
 # checkered flag, "blinking black and white"
 def checkered():
     for i in range(5):
-        fans.set_color(black)
+        flagDevice.set_color(black)
         time.sleep(1)
-        fans.set_color(white)
+        flagDevice.set_color(white)
         time.sleep(1)
 
 
@@ -51,36 +51,36 @@ def shiftLight(currentRPM, maxRPM):
     rpmRatio = rpmRatioCalc(currentRPM, maxRPM)
     match rpmRatio:
         case 0:
-            keyboard.set_color(black)
+            shiftDevice.set_color(black)
         case _ if 0 < rpmRatio <= 80:
-            keyboard.set_color(green)
+            shiftDevice.set_color(green)
         case _ if 80 < rpmRatio <= 88:
-            keyboard.set_color(yellow)
+            shiftDevice.set_color(yellow)
         case _ if 88 < rpmRatio <= 100:
-            keyboard.set_color(red)
+            shiftDevice.set_color(red)
         case _:
-            keyboard.set_color(black)
+            shiftDevice.set_color(black)
 
 # flag value definitions: https://github.com/rrennoir/PyAccSharedMemory?tab=readme-ov-file#acc_flag_type
 def flagLight(flag):
         match flag:
             case 0: # no flag
-                fans.set_color(neutral)
+                flagDevice.set_color(neutral)
             case 1: # blue flag
-                fans.set_color(blue)
+                flagDevice.set_color(blue)
             case 2: # yellow flag
-                fans.set_color(yellow)
+                flagDevice.set_color(yellow)
             case 3: # black flag
-                fans.set_color(black)
+                flagDevice.set_color(black)
             case 4: # white flag
-                fans.set_color(white)
+                flagDevice.set_color(white)
             case 5: # checkered flag
                 checkered()
             case 6: # according to doc this is "penalty flag" - TBD which color fits best
-                fans.set_color(neutral)
+                flagDevice.set_color(neutral)
             case 7: # green flag
-                fans.set_color(green)
+                flagDevice.set_color(green)
             case 8: # orange flag
-                fans.set_color(orange)
+                flagDevice.set_color(orange)
             case _: # catching possible errors, or non-relevant output when e.g. in menu
-                fans.set_color(neutral)
+                flagDevice.set_color(neutral)
