@@ -5,7 +5,7 @@ global maxRPM
 global currentRPM
 global flag # will match values from ACC, see flagLight() in TelemetryFunctions.py
 
-def accTelemetry():
+def lmuTelemetry():
     sim = SimInfoAPI()
 
     if sim.isRF2running():
@@ -35,6 +35,3 @@ def accTelemetry():
 
         flagLight(flag)
         shiftLight(currentRPM, maxRPM)
-
-if __name__ == "__main__":
-    accTelemetry()
