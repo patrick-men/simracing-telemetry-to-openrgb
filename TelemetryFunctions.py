@@ -38,8 +38,11 @@ def checkered():
 
 
 def rpmRatioCalc(currentRPM, maxRPM):
-    rpmRatio = (currentRPM / maxRPM) * 100
-    return rpmRatio
+    if maxRPM == 0:
+        return 0
+    else:
+        rpmRatio = (currentRPM / maxRPM) * 100
+        return rpmRatio
 
 # function for shift light. Based on rpm Ratio, the light changes - similar to GT cars' shift light, though with "vague", generic ratios
 
